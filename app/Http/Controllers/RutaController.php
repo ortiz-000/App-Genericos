@@ -1,66 +1,45 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Pdf;
-use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Http\Request;
-
-
-namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pdf;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class RutaController extends Controller
 {
-    // Mostrar las rutas y PDFs (opcional)
+    // Mostrar rutas y PDFs
     public function Ruta()
     {
-        // Rutas estáticas (puedes traerlas desde DB si quieres)
         $rutas = [
             ['id' => 1, 'nombre' => 'Ruta Tuluá'],
             ['id' => 2, 'nombre' => 'Ruta Trujillo'],
         ];
 
-        // Obtener PDFs filtrados por usuario
         $user = Auth::user();
-        $rolesConAccesoTotal = ['admin', 'supervisor'];
+        $rolesConAccesoTotal = ['admin'];
 
         if (in_array($user->role, $rolesConAccesoTotal)) {
-            $pdfs = Pdf::latest()->get();
-        } else {
-            $pdfs = Pdf::where('empleado_id', $user->id)->latest()->get();
-        }
-
-        return view('Ruta', compact('rutas', 'pdfs'));
-    }
-
-    // Listar PDFs en una vista separada (opcional)
-    public function pdfs()
-{
-    $user = Auth::user();
-    $rolesConAccesoTotal = ['admin', 'supervisor'];
-
-    if (in_array($user->role, $rolesConAccesoTotal)) {
-        $pdfs = Pdf::latest()->paginate(15); // <-- usar paginate
+    $pdfs = Pdf::latest()->get(); // admin ve todos
     } else {
-        $pdfs = Pdf::where('empleado_id', $user->id)->latest()->paginate(15); // <-- paginate aquí también
+    $pdfs = Pdf::where('empleado_id', $user->id)->latest()->get(); // usuario normal solo lo suyo
     }
 
-    return view('Ruta', compact('pdfs'));
-}
 
+        // Traer todos los usuarios para el select en la subida
+        $usuarios = User::all();
 
-    // Subir PDF
+        return view('Ruta', compact('rutas', 'pdfs', 'usuarios'));
+    }
+
+    // Subir PDF y asignar a un usuario
     public function storePdf(Request $request)
     {
-        $user = Auth::user();
-
         $request->validate([
-            'pdf' => 'required|file|mimes:pdf|max:10240', // 10 MB
+            'pdf' => 'required|file|mimes:pdf|max:10240',
             'nombre' => 'required|string|max:255',
+            'empleado_id' => 'required|exists:users,id',
         ]);
 
         $filePath = $request->file('pdf')->store('pdfs', 'public');
@@ -68,10 +47,10 @@ class RutaController extends Controller
         Pdf::create([
             'nombre' => $request->nombre,
             'ruta' => $filePath,
-            'empleado_id' => $user->id,
+            'empleado_id' => $request->empleado_id,
         ]);
 
-        return redirect()->back()->with('success', 'PDF subido correctamente.');
+        return redirect()->back()->with('success', 'PDF subido correctamente y asignado al usuario.');
     }
 
     // Eliminar PDF
@@ -80,7 +59,6 @@ class RutaController extends Controller
         $pdf = Pdf::findOrFail($id);
         $user = Auth::user();
 
-        // Solo el dueño o admin puede eliminar
         if ($pdf->empleado_id !== $user->id && $user->role !== 'admin') {
             abort(403, 'No tienes permiso para eliminar este PDF.');
         }
@@ -89,7 +67,23 @@ class RutaController extends Controller
 
         return redirect()->back()->with('success', 'PDF eliminado correctamente.');
     }
-    
+
+    // Descargar PDF de forma segura
+    public function downloadPdf($id)
+    {
+        $pdf = Pdf::findOrFail($id);
+        $user = Auth::user();
+
+        if ($pdf->empleado_id !== $user->id && !in_array($user->role, ['admin', 'supervisor'])) {
+            abort(403, 'No tienes permiso para ver este PDF.');
+        }
+
+        $filePath = storage_path('app/public/' . $pdf->ruta);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'Archivo no encontrado.');
+        }
+
+        return response()->file($filePath);
+    }
 }
-
-

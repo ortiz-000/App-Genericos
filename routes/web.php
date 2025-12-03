@@ -124,13 +124,16 @@ Route::middleware('auth')->group(function () {
     ->middleware('permission:ver ruta'); 
 
 
-
-
-
     //<===========================>RUTA<==========================>//
     Route::get('/ruta/pdfs', [RutaController::class, 'pdfs'])->name('ruta.pdfs')->middleware('auth');
-Route::post('/ruta/pdfs', [RutaController::class, 'storePdf'])->name('ruta.pdfs.store')->middleware('auth');
-Route::delete('/ruta/pdfs/{id}', [RutaController::class, 'destroyPdf'])->name('ruta.pdfs.destroy')->middleware('auth');
+    Route::post('/ruta/pdfs', [RutaController::class, 'storePdf'])->name('ruta.pdfs.store')->middleware('auth');
+    Route::delete('/ruta/pdfs/{id}', [RutaController::class, 'destroyPdf'])->name('ruta.pdfs.destroy')->middleware('auth');
+
+    
+    Route::get('/ruta', [RutaController::class, 'Ruta'])->name('ruta.pdfs.index')->middleware('auth');
+    Route::post('/ruta/pdf/store', [RutaController::class, 'storePdf'])->name('ruta.pdfs.store')->middleware('auth');
+    Route::delete('/ruta/pdf/destroy/{id}', [RutaController::class, 'destroyPdf'])->name('ruta.pdfs.destroy')->middleware('auth');
+    Route::get('/ruta/pdf/download/{id}', [RutaController::class, 'downloadPdf'])->name('ruta.pdfs.download')->middleware('auth');
 
 
      //<===========================>RUTA<==========================>//
