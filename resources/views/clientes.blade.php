@@ -84,15 +84,19 @@
                 <input type="hidden" name="id" id="edit_id">
                 
                 <label>Nombre</label>
+                <i class="fa-solid fa-user-pen"></i>
                 <input class="controls" type="text" name="nombre" id="edit_nombre" placeholder="Ingrese el nombre">
 
                 <label>Dirección</label>
+                <i class="fa-solid fa-map-marker-alt"></i>
                 <input class="controls" type="text" name="direccion" id="edit_direccion" placeholder="Ingrese la direccion">
 
                 <label>Ciudad</label>
+                <i class="fa-solid fa-city"></i>    
                 <input class="controls" type="text" name="ciudad" id="edit_ciudad" placeholder="Ingrese la ciudad">
 
                 <label>Teléfono</label>
+                <i class="fa-solid fa-phone"></i>
                 <input class="controls" type="text" name="telefono" id="edit_telefono" placeholder="Ingrese el teléfono">
 
                 <div>

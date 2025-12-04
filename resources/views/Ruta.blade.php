@@ -34,26 +34,26 @@
     <table class="table table-striped table-hover">
         <thead>
     <tr>
-        <th>Nombre</th>
-        <th>Asignado a</th> <!-- nueva columna -->
-        <th>Archivo</th>
-        <th>Fecha</th>
-        <th>Acciones</th>
+        <th class="hide-md">Nombre</th>
+        <th class="hide-md">Asignado a</th> <!-- nueva columna -->
+        <th class="hide-md">Archivo</th>
+        <th class="hide-md">Fecha</th>
+        <th class="hide-md">Acciones</th>
     </tr>
 </thead>
 <tbody>
     @foreach($pdfs as $p)
     <tr>
-        <td>{{ $p->nombre }}</td>
-        <td>{{ $p->empleado->name }}</td> <!-- aquí -->
-        <td>
+        <td class="hide-md">{{ $p->nombre }}</td>
+        <td class="hide-md">{{ $p->empleado->name }}</td> <!-- aquí -->
+        <td class="hide-md">
             <a href="{{ route('ruta.pdfs.download', $p->id) }}" target="_blank">Ver PDF</a>
         </td>
-        <td>{{ $p->created_at->format('d/m/Y H:i') }}</td>
+        <td class="hide-md">{{ $p->created_at->format('d/m/Y H:i') }}</td>
 
         
         @can('eliminar pdfs')
-        <td>
+        <td class="hide-md">
             <form action="{{ route('ruta.pdfs.destroy', $p->id) }}" method="POST">
                 @csrf
                 @method('DELETE')

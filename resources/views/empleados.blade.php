@@ -11,90 +11,92 @@
 @endsection
 
 @section('maincontent')
-<div class="filter-container mb-3">
-    <input type="text" id="filterCliente" placeholder="Buscar Cliente..." class="form-control mb-2">
-    <input type="text" id="filterCiudad" placeholder="Buscar Ciudad..." class="form-control mb-2">
-    <input type="date" id="filterFecha" class="form-control mb-2">
-</div>
 
-    {{-- <div class="search-container mb-3">
-        <input id="searchInput" type="text" placeholder="Buscar..." class="search-input">
-        <button class="btn btn-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </div> --}}
+<div class="container mt-3">
 
-<div class="container mt-4">
+    {{-- Filtros responsivos --}}
+    <div class="row g-2 mb-3">
+        <div class="col-12 col-md-4">
+            <input type="text" id="filterCliente" placeholder="Buscar Cliente..." class="form-control">
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="text" id="filterCiudad" placeholder="Buscar Ciudad..." class="form-control">
+        </div>
+        <div class="col-12 col-md-4">
+            <input type="date" id="filterFecha" class="form-control">
+        </div>
+    </div>
 
-    <!-- Botón para abrir la modal -->
-
-    <!-- Tabla de evidencias -->
+    {{-- Tabla responsiva --}}
     <div class="table-responsive">
-        <table id="miTabla" class="table table-striped table-hover">
-         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Accesor Comercial</th>
-                <th>Usuario</th>
-                <th>Nombre del Establecimiento</th>
-                <th>Ciudad</th>
-                <th>Ubicación</th>
-                <th>motivo</th>
-                <th>otro</th>
-                <th>Foto</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
+        <table id="miTabla" class="table table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Accesor Comercial</th>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Ciudad</th>
+                    <th>Ubicación</th>
+                    <th>Motivo</th>
+                    <th>Otro</th>
+                    <th>Foto</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            @foreach($evidencias as $e)
-            <tr>
-                <td>{{ $e->id }}</td>
-                <td>{{ $e->accesor_comercial }}</td>
-                <td>{{ $e->usuario }}</td>
-                <td>{{ $e->nombre_establecimiento }}</td>
-                <td>{{ $e->ciudad_establecimiento }}</td>
+            <tbody>
+                @foreach($evidencias as $e)
+                <tr>
+                    <td>{{ $e->id }}</td>
+                    <td>{{ $e->accesor_comercial }}</td>
+                    <td>{{ $e->usuario }}</td>
+                    <td>{{ $e->nombre_establecimiento }}</td>
+                    <td>{{ $e->ciudad_establecimiento }}</td>
 
-                <td>
-                    <a href="{{ $e->ubicacion }}" target="_blank" class="btn btn-sm btn-success">
-                        Ver mapa
-                    </a>
-                </td>
+                    <td>
+                        <a href="{{ $e->ubicacion }}" 
+                           class="btn btn-success btn-sm w-100" 
+                           target="_blank">
+                           Ver mapa
+                        </a>
+                    </td>
 
-                <td>{{ $e->motivo }}</td>
-                 <td>{{ $e->otro }}</td>
+                    <td>{{ $e->motivo }}</td>
+                    <td>{{ $e->otro }}</td>
 
-                <td>
-                    @if($e->foto_establecimiento)
-                       <img src="/storage/{{ $e->foto_establecimiento }}" width="60">
+                    <td>
+                        @if($e->foto_establecimiento)
+                            <img src="{{ asset('storage/' . $e->foto_establecimiento) }}"
+                                 style="width: 60px; height: auto; border-radius: 5px;">
+                        @else
+                            <span class="text-muted">No foto</span>
+                        @endif
+                    </td>
 
+                    <td>{{ $e->created_at }}</td>
 
-
-                    @else
-                        No hay foto
-                    @endif
-                </td>
-                <td>{{ $e->created_at }}</td>
-
-                @can('eliminar reportes')
-                    
-             
-                <td>
-                    <form action="{{ route('empleados.reportes.destroy', $e->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que desea eliminar este reporte?')">
-                            <i class="fa-solid fa-trash"></i> Borrar
-                        </button>
-                 @endcan
-                    </form>
-                </td>
-            </tr>
-            @endforeach
+                    <td>
+                        @can('eliminar reportes')
+                        <form action="{{ route('empleados.reportes.destroy', $e->id) }}"
+                              method="POST"
+                              onsubmit="return confirm('¿Seguro que desea eliminar este reporte?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm w-100">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                        @endcan
+                    </td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
+
 </div>
 
 @endsection
+

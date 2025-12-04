@@ -129,22 +129,28 @@
 
 
             <label>Nombre</label>
+            <i class="fa-solid fa-user-pen"></i>
             <input class="controls" type="text" name="nombre" id="edit_nombre" placeholder="Ingrese su nombre">
 
             <label>Cedula</label>
+            <i class="fa-solid fa-id-card"></i>
             <input class="controls" type="text" name="cedula" id="edit_cedula" placeholder="Ingrese su cédula">
 
             <label>Email</label>
+            <i class="fa-solid fa-envelope"></i>
             <input class="controls" type="email" name="email" id="edit_email" placeholder="Ingrese su email">
 
             <label >Nueva contraseña</label>
+            <i class="fa-solid fa-lock"></i>
             <input class="controls" type="password" name="password" id="edit_password" placeholder="Nueva contraseña (opcional)">
 
             <label>Telefono</label>
+            <i class="fa-solid fa-phone"></i>
             <input class="controls" type="text" name="telefono" id="edit_telefono" placeholder="Ingrese su teléfono">
 
 
             <label>Rol</label>
+            <i class="fa-solid fa-user-tag"></i>
             <select class="selected" name="rol" id="edit-rol">
                 <option value="vendedor">Vendedor</option>
                 <option value="admin">Administrador</option>
