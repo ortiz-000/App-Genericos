@@ -209,9 +209,8 @@ body {
   border-radius: 8px;
   flex: 1;
   position: absolute;
-  right: 760px;
+  right: 860px;
 }
-
 
 /*====================== BLOQUE DE USUARIOS ================== */
 
@@ -235,12 +234,12 @@ body {
   color: #000000;
   font-weight: 500;
   position: absolute;
-  right: 640px;
+  right: 740px;
 }
 
 
 .close-modal-btn:hover {
-  background-color: #ff0000;
+  background-color: #e08585;
 }
 /*BOTÓN DE EDITAR USUARIOS*/
 .btn_edit_users{
@@ -295,10 +294,10 @@ body {
   border-radius: 8px;
   cursor: pointer;
   background-color: #fcfcfc;
-  color: #dc1717;
+  color: #000000;
   font-weight: 500;
    position: absolute;
-  right: 640px;
+  right: 740px;
 }
 
 
