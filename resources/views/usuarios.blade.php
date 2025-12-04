@@ -2,6 +2,7 @@
 
 @section('header')
     <div class="page-header text-center">
+        <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
         <h2>Lista de Usuarios</h2>
     </div>
 @endsection
@@ -17,8 +18,8 @@
 
     <!-- ================== BOTÓN AGREGAR USUARIO ================== -->
     <div class="actions-container mb-3 text-right">
-        <button class="btn btn-primary btn-add-user">
-            <i class="fa-solid fa-user-plus"></i> Agregar Usuario
+        <button class="btn btn-add-user">
+            <i class="fa-solid fa-user-plus"></i>
         </button>
     </div>
 
@@ -49,7 +50,7 @@
                         <td>{{ $u->rol ?? '' }}</td>
                         <td>
                             <button type="button" class="btn_edit_users">
-                                <i class="fa-solid fa-pen"></i>
+                              <i class="fa-regular fa-pen-to-square"></i>
                             </button>
                         <form action="{{ route('usuarios.destroy', $u->id) }}" method="POST" style="display:inline-block;">
                             @csrf
@@ -77,13 +78,30 @@
 
             <form action="{{ route('usuarios.store') }}" method="POST">
                 @csrf
+                
+                <label>Nombre</label>
+                <i class="fa-solid fa-person-circle-plus"></i>
                 <input class="controls" type="text" name="nombre" placeholder="Ingrese el nombre">
-                <input class="controls" type="text" name="cedula" placeholder="Ingrese la cedula">
-                <input class="controls" type="email" name="email" placeholder="Ingrese el email">
-                <input class="controls" type="password" name="password" placeholder="Ingrese la contraseña">
-                <input class="controls" type="text" name="telefono" placeholder="Ingrese el telefono">
 
-               <select class="selecte" name="rol">
+                <label>Cedula</label>
+                <i class="fa-solid fa-id-card"></i>
+                <input class="controls" type="text" name="cedula" placeholder="Ingrese la cedula">
+
+                <label>Email</label>
+                <i class="fa-solid fa-envelope"></i>
+                <input class="controls" type="email" name="email" placeholder="Ingrese el email">
+
+                <label>Password</label>
+                <i class="fa-solid fa-lock"></i>
+                <input class="controls" type="password" name="password" placeholder="Ingrese la contraseña">
+
+                <label>Telefono</label>
+                <i class="fa-solid fa-phone"></i>
+                <input class="controls" type="text" name="telefono" placeholder="Ingrese el telefono">
+                
+                <label>Rol</label>
+                <i class="fa-solid fa-user-tag"></i>
+                <select class="selecte" name="rol">
                     <option value="vendedor">Vendedor</option>
                     <option value="admin">Administrador</option>
                 </select>
@@ -127,13 +145,13 @@
 
 
             <label>Rol</label>
-            <select class="selecte" name="rol" id="edit-rol">
+            <select class="selected" name="rol" id="edit-rol">
                 <option value="vendedor">Vendedor</option>
                 <option value="admin">Administrador</option>
             </select>
 
             <div>
-                <button type="submit" class="btn btn-edit-user">Guardar cambios</button>
+                <button type="submit" class="Edit_usuario">Guardar cambios</button>
                 <a href="#" class="close_modal_btn">Cerrar</a>
             </div>
         </form>

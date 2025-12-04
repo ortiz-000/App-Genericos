@@ -1,8 +1,9 @@
 @extends('layouts.default')
 
 @section('header')
-    <div class="page-header">
-        <h2>Lista de Clientes</h2>
+    <div class="page-header text-center">
+        <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
+        <h2>LISTA CLIENTES </h2>
     </div>
 @endsection
 
@@ -47,15 +48,15 @@
                                 data-direccion="{{ $c->direccion }}" 
                                 data-ciudad="{{ $c->ciudad }}" 
                                 data-telefono="{{ $c->telefono }}">
-                                Editar
-                            </button>
+                                
+                             <i class="fa-regular fa-pen-to-square"></i></button>
 
                             <!-- Botón Eliminar -->
                             <form action="{{ route('clientes.destroy', $c->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-borrar">
-                                    <i class="fa-solid fa-trash"></i> Eliminar
+                                    <i class="fa-solid fa-trash"></i> 
                                 </button>
                             </form>
                         </td>

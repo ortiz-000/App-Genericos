@@ -1,7 +1,10 @@
 @extends('layouts.default')
 
 @section('maincontent')
-<h2>PDFs</h2>
+<div class="page-header text-center">
+    <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
+        <h2>RUTERO PDFS </h2>
+    </div>
 
 @if(session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
@@ -30,31 +33,38 @@
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Archivo</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($pdfs as $p)
-            <tr>
-                <td>{{ $p->nombre }}</td>
-                <td>
-                    <a href="{{ route('ruta.pdfs.download', $p->id) }}" target="_blank">Ver PDF</a>
-                </td>
-                <td>{{ $p->created_at->format('d/m/Y H:i') }}</td>
-                <td>
-                    <form action="{{ route('ruta.pdfs.destroy', $p->id) }}" method="POST" style="display:inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('¿Seguro que desea eliminar este PDF?')">Borrar</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+    <tr>
+        <th>Nombre</th>
+        <th>Asignado a</th> <!-- nueva columna -->
+        <th>Archivo</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach($pdfs as $p)
+    <tr>
+        <td>{{ $p->nombre }}</td>
+        <td>{{ $p->empleado->name }}</td> <!-- aquí -->
+        <td>
+            <a href="{{ route('ruta.pdfs.download', $p->id) }}" target="_blank">Ver PDF</a>
+        </td>
+        <td>{{ $p->created_at->format('d/m/Y H:i') }}</td>
+
+        
+        @can('eliminar pdfs')
+        <td>
+            <form action="{{ route('ruta.pdfs.destroy', $p->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('¿Seguro que desea eliminar este PDF?')" class="btn-borrar"> <i class="fa-solid fa-trash"></i></button>
+            </form>
+        </td>
+         @endcan
+    </tr>
+    @endforeach
+</tbody>
+
     </table>
 </div>
 @endsection

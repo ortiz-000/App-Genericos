@@ -2,14 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <!-- Estilos y scripts -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
-
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <title>@yield('title', 'Mi App')</title>
@@ -26,9 +22,10 @@
                 <span class="user-name">{{ Auth::user()->name }}</span>
                 <span class="user-role">{{ Auth::user()->rol ?? 'Usuario' }}</span>
             </div>
+            
         </div>
             <div class="sidebar-header">
-                <h2>Mi App</h2>
+                <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
             </div>
 
             <ul class="sidebar-menu">

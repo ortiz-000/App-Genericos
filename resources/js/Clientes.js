@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal para agregar cliente
     const btnAbrir = document.querySelector('.Clienteadd');  // El botón con la clase 'Clienteadd'
     const modalClientes = document.getElementById('modalClientes');
-    const btnCerrarClientes = modalClientes.querySelector('.modal-close');  // El enlace con la clase 'modal-close'
+    const btnCerrarClientes = modalClientes.querySelector('.Cerar-model');  // El enlace con la clase 'modal-close'
 
     // Abre el modal al hacer clic en el botón "Agregar Cliente"
     if (btnAbrir && modalClientes) {

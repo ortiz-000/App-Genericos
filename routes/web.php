@@ -131,8 +131,8 @@ Route::middleware('auth')->group(function () {
 
     
     Route::get('/ruta', [RutaController::class, 'Ruta'])->name('ruta.pdfs.index')->middleware('auth');
-    Route::post('/ruta/pdf/store', [RutaController::class, 'storePdf'])->name('ruta.pdfs.store')->middleware('auth');
-    Route::delete('/ruta/pdf/destroy/{id}', [RutaController::class, 'destroyPdf'])->name('ruta.pdfs.destroy')->middleware('auth');
+    Route::post('/ruta/pdf/store', [RutaController::class, 'storePdf'])->name('ruta.pdfs.store')->middleware('permission:agregar pdfs');
+    Route::delete('/ruta/pdf/destroy/{id}', [RutaController::class, 'destroyPdf'])->name('ruta.pdfs.destroy')->middleware('permission:eliminar pdfs');
     Route::get('/ruta/pdf/download/{id}', [RutaController::class, 'downloadPdf'])->name('ruta.pdfs.download')->middleware('auth');
 
 

@@ -7,18 +7,26 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+.logo {
+  display: block;        /* necesario para centrar con margin auto */
+  margin: 0 auto;        /* centra horizontalmente */
+  width: 150px;          /* ajusta el tamaño deseado */
+  max-width: 80%;        /* opcional: para que no se pase del contenedor */
+  height: auto;          /* mantiene la proporción */
+}
+
 
 body {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: #ffffff;
+  color: #000000;
   line-height: 1.6;
 }
 
 /* ================== CONTENEDORES ================== */
 .page-header {
   padding: 1rem 0;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgb(41, 41, 41);
   margin-bottom: 1rem;
 }
 
@@ -49,6 +57,25 @@ body {
   flex: 1;
 }
 
+
+
+/* ================== BOTONES ================== */
+
+.Excel{
+  padding: 0.5rem 1rem;
+  border: 1px solid #4de74d;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #40bf21;
+  color: #ffffff;
+}
+
+.Excel:hover{
+  background-color: #81df66;
+}
+
+
+/* ================== BOTÓN DE BUSQUEDA HOME ================== */
 .btn-search {
   padding: 0.5rem 1rem;
   background-color: #4f46e5;
@@ -63,11 +90,268 @@ body {
   background-color: #3730a3;
 }
 
-/* ================== BOTONES ================== */
+/* ================== BOTÓN DE BUSQUEDA HOME ================== */
 
+
+/*====================== BLOQUE DE AGREGAR CLIENTES EN LA PANTALLA HOME ================== */
+
+/*BOTÓN DE AGREGAR CLIENTES EN LA PANTALLA HOME */
+.Clienteadd{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0cc3e3, #0011ff54);
+  font-weight: 500;
+  color: #000000;
+  
+}
+
+/*BOTON DE CERRAR LA MODAL DE AGREGAR CLIENTES EN LA PANTALLA HOME */
+.Cerar-model{
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #e00a0a;
+  color: #ffffff;
+}
+
+.Cerar-model:hover {
+  background-color: #e08585;
+}
+
+
+/*BOTÓN DE ABRIR LA MODAL EVIDENCIA EN LA PANTALLA HOME */
+.btn-evidencia{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00e2fb;
+  font-weight: 500;
+  color: rgb(15, 15, 15);
+}
+
+.btn-evidencia:hover{
+  background-color: #a8f2f2;
+}
+
+/*BOTÓN DE ELIMINAR CLIENTES EN LA PANTALLA HOME */
+.btn-danger{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #1c1c1c;
+  font-weight: 500;
+}
+
+.btn-danger:hover {
+  background-color: #e08585;
+}
+
+/*BOTÓN DE AGREGAR CLIENTES EN LA MODAL DE LA PANTALLA HOME */
+.Agregar{
+ padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffffff, #98989b);
+  font-weight: 500;
+ 
+}
+/*BOTÓN DE ENVIAR EVIDENCIA EN LA MODAL DE LA PANTALLA HOME */
+.btn-primary{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00e2fb;
+  font-weight: 500;
+  color: rgb(15, 15, 15);
+}
+
+.btn-primary:hover{
+  background-color: #a8f2f2;
+}
+
+/*BOTÓN DE CERRAR LA MODAL DE ENVIAR EVIDENCIA EN LA PANTALLA HOME */
+.btn-secondary{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f30606;
+  color: #000000;
+  position: absolute;
+  right: 40px;
+}
+
+.btn-secondary:hover {
+  background-color: #e08585;
+}
+
+
+/*====================== BLOQUE DE AGREGAR CLIENTES EN LA PANTALLA HOME ================== */
+
+/*SELCT DE MODALES*/
+.selecte{
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+  position: absolute;
+  right: 760px;
+}
+
+
+/*====================== BLOQUE DE USUARIOS ================== */
+
+/*BOTÓN DE AGREGAR USUARIOS EN LA PANTALLA USUARIOS */
+.btn-add-user{
+ padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #0cc3e3, #0011ff54);
+  font-weight: 500;
+  color: #000000;
+}
+/*BOTÓN DE CERRAR LA MODAL DE AGREGAR USUARIOS*/
+.close-modal-btn{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fcfcfc;
+  color: #000000;
+  font-weight: 500;
+  position: absolute;
+  right: 640px;
+}
+
+
+.close-modal-btn:hover {
+  background-color: #ff0000;
+}
+/*BOTÓN DE EDITAR USUARIOS*/
+.btn_edit_users{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00e2fb;
+  font-weight: 500;
+  color: rgb(15, 15, 15);
+}
+
+.btn_edit_users:hover{
+  background-color: #a8f2f2;
+}
+
+/*BOTÓN ELIMINAR USUARIOS*/
+.btn-delete{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 500;
+}
+
+.btn-delete:hover {
+  background-color: #e08585;
+
+}
+/*BOTÓN PARA GUARDAR LOS CAMBIOS EN LA MODAL DE EDITAR USUARIOS*/
+.Edit_usuario{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00e2fb;
+  font-weight: 500;
+  color: rgb(15, 15, 15);
+}
+
+.Edit_usuario:hover{
+  background-color: #a8f2f2;
+}
+
+
+/*BOTÓN DE CERRAR LA VENTANA MODAL DE EDITAR USUARIOS*/
+.close_modal_btn{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #fcfcfc;
+  color: #dc1717;
+  font-weight: 500;
+   position: absolute;
+  right: 640px;
+}
+
+
+
+.close_modal_btn:hover {
+  background-color: #e08585;
+}
+
+/*====================== BLOQUE DE USUARIOS ================== */
+
+/*====================== MODULO CLIENTES ================== */
+
+/*BOTÓN DE EDITAR CLIENTES*/
+.btn-editar{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00e2fb;
+  font-weight: 500;
+  color: rgb(15, 15, 15);
+}
+
+.btn-editar:hover{
+  background-color: #a8f2f2;
+}
+/*BOTÓN DE ELIMINAR CLIENTES*/
+.btn-borrar{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: 500;
+}
+
+.btn-borrar:hover {
+  background-color: #e08585;
+}
+
+/*BOTÓN DE GUARDAN CAMBIS DE CLIENTES*/
+.btn-edit-user{
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #00e2fb;
+  font-weight: 500;
+  color: rgb(15, 15, 15);
+}
+
+.btn-edit-user:hover{
+  background-color: #a8f2f2;
+}
+
+/*BOTÓN DE CERRAR MODAL*/
 
 .modal-close{
- padding: 0.6rem 1.2rem;
+  padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -77,110 +361,13 @@ body {
 }
 
 .modal-close:hover {
-  background-color: #ff0000;
+  background-color: #e08585;
 }
 
-.btn-secondary{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #fcfcfc;
-  color: #000000;
-  font-weight: 500;
-}
+/*====================== MODULO RUTAS ================== */
 
 
-.btn-secondary:hover {
-  background-color: #ff0000;
-}
-
-
-
-.btn-evidencia{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffffff, #98989b);
-  font-weight: 500;
-}
-
-
-.Clienteadd{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffffff, #98989b);
-  font-weight: 500;
-}
-
-.btn-danger{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #fcfcfc;
-  color: #000000;
-  font-weight: 500;
-}
-
-.btn-danger:hover {
-  background-color: #ff0000;
-}
-
-.btn-delete{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #fcfcfc;
-  color: #000000;
-  font-weight: 500;
-}
-.close-modal-btn{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #fcfcfc;
-  color: #000000;
-  font-weight: 500;
-}
-
-
-.close-modal-btn:hover {
-  background-color: #ff0000;
-}
-
-.close_modal_btn{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #fcfcfc;
-  color: #000000;
-  font-weight: 500;
-}
-
-
-.close_modal_btn:hover {
-  background-color: #ff0000;
-}
-
-.btn-delete:hover {
-  background-color: #ff0000;
-}
-.btn-primary{
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffffff, #98989b);
-  font-weight: 500;
-}
-
+/*====================== MODULO RUTAS ================== */
 
 .btn-login {
   width: 100%;
@@ -194,19 +381,6 @@ body {
 .btn-login:hover {
   background-color: #3730a3;
 }
-
-
-
-.btn_edit_users{
- padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffffff, #98989b);
-  font-weight: 500;
-}
-
-
 
 
 /* ================== TABLAS ================== */
@@ -365,6 +539,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 10;
+    
 }
 
 /* CUANDO SE ABRE */
@@ -374,7 +549,7 @@ body {
 .modal_container {
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 35px;
     width: 400px;
     max-width: 90%;
 }
@@ -382,14 +557,14 @@ body {
 .modal__container {
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 35px;
     width: 400px;
     max-width: 90%;
 }
 modal_container{
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 35px;
     width: 400px;
     max-width: 90%;
 }
@@ -399,8 +574,9 @@ modal_container{
   font-size: 1rem;
   padding: 0.75rem 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 35px;
   outline: none;
+  margin-bottom: 10px;
 }
 .form-select{
   width: 100%;

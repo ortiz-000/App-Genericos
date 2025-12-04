@@ -9,18 +9,23 @@ class Pdf extends Model
 {
     use HasFactory;
 
-    protected $table = 'pdfs'; // ajusta si tu tabla tiene otro nombre
-
-    // Campos que se pueden llenar de forma masiva
     protected $fillable = [
         'nombre',
         'ruta',
         'empleado_id',
+        'creado_por',
     ];
 
-    // Relación con el usuario (empleado)
+    // Relación con el usuario asignado
     public function empleado()
     {
         return $this->belongsTo(User::class, 'empleado_id');
     }
+
+    // Relación con el usuario que subió el PDF
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'creado_por');
+    }
 }
+

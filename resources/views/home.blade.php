@@ -4,6 +4,7 @@
 
 
 <div class="page-header text-center">
+    <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
         <h2>HOME </h2>
     </div>
 @endsection
@@ -23,8 +24,8 @@
             @csrf
             <label for="excel_file" class="form-label">Cargar archivo Excel</label>
             <input type="file" name="excel_file" id="excel_file" class="form-control" accept=".xlsx, .xls" required>
-           <button type="submit" class="btn btn-primary mt-2">
-                <i class="fa-regular fa-file-excel me-1"></i> Cargar Excel
+           <button type="submit" class="btn Excel">
+                <i class="fa-solid fa-file-export"></i>EXCEL
             </button>
 
         </form>
@@ -33,7 +34,7 @@
     <!-- BOTÓN AGREGAR CLIENTE -->
     <div class="actions-container mb-3 text-end">
         <button type="button" class="btn btn-success Clienteadd">
-            <i class="fa-regular fa-user"></i> Agregar Cliente
+            <i class="fa-solid fa-user-plus"></i>
         </button>
     </div>
 
@@ -76,7 +77,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que desea eliminar este cliente?')">
-                                    <i class="fa-solid fa-trash"></i>
+                                   <i class="fa-solid fa-trash-can"></i>
                                 </button>
                             </form>
                         </td>
@@ -93,16 +94,30 @@
     <!-- MODAL AGREGAR CLIENTE -->
     <section class="modal" id="modalClientes">
         <div class="modal__container">
-            <h1 class="modal__title">Agregar Cliente</h1>
+            <center><h1 class="modal__title">Agregar Cliente</h1></center>
             <form action="{{ route('clientes.store') }}" method="POST">
                 @csrf
+
+                <label>Nombre</label>
+                <i class="fa-regular fa-user"></i>
                 <input class="controls" type="text" name="nombre" placeholder="Ingrese el nombre" class="form-control mb-2" required>
+                
+                 <label>Dirección</label>
+                 <i class="fa-solid fa-road"></i>
                 <input class="controls" type="text" name="direccion" placeholder="Ingrese la dirección" class="form-control mb-2" required>
+
+                 <label>Ciudad</label>
+                 <i class="fa-solid fa-city"></i>
                 <input class="controls" type="text" name="ciudad" placeholder="Ingrese la ciudad" class="form-control mb-2" required>
+
+                 <label>Telefono</label>
+                 <i class="fa-solid fa-phone"></i>
                 <input class="controls" type="text" name="telefono" placeholder="Ingrese el teléfono" class="form-control mb-2" required>
+
+
                 <div class="mt-2">
-                    <button type="submit" class="btn btn-primary">Agregar</button>
-                    <a href="#" class="modal-close btn btn-secondary">Cerrar</a>
+                    <button type="submit" class="btn Agregar">Agregar</button>
+                    <a href="#" class="Cerar-model">Cerrar</a>
                 </div>
             </form>
         </div>
@@ -111,25 +126,29 @@
     <!-------MODAL ENVIAR EVIDENCIA------->
     <section class="modal" id="modalEvidencia">
     <div class="modalContent">
-        <h1 class="moda__title">EVIDENCIA</h1>
+        <center><h1 class="moda__title">EVIDENCIA</h1></center>
 
         <form action="{{ route('empleados.evidencia.store') }}" method="POST" enctype="multipart/form-data">
             <!-- CSRF token si es Laravel -->
             @csrf
             <!-- Accesor Comercial -->
             <label>Accesor Comercial</label>
+            <i class="fa-regular fa-address-card"></i>
             <input class="controls" type="text" name="accesor_comercial" value="{{ auth()->user()->name }}" readonly>
 
             <!-- Usuario -->
-            <label>Usuario</label>
+            <label>Email</label>
+            <i class="fa-regular fa-envelope"></i>
             <input class="controls" type="email" name="usuario" value="{{ auth()->user()->email }}" readonly>
 
             <!-- Nombre del Establecimiento -->
             <label>Nombre del Establecimiento</label>
+            <i class="fa-regular fa-building"></i>
             <input class="controls" type="text" name="nombre_establecimiento" id="nombre_establecimiento" required placeholder="Nombre de el Establecimiento">
 
             <!-- Ciudad del Establecimiento -->
             <label>Ciudad del Establecimiento</label>
+            <i class="fa-solid fa-city"></i>
             <input class="controls" type="text" name="ciudad_establecimiento" id="ciudad_establecimiento" required placeholder="Ciudad Donde se encuentra el Establecimiento">
 
             <!-- Ubicación (link) -->
@@ -158,6 +177,7 @@
 
             <!-- Foto del Establecimiento -->
             <label>Foto del Establecimiento</label>
+            <i class="fa-solid fa-camera"></i>
             <input type="file" name="foto_establecimiento" accept="image/*" capture="environment" required>
 
 

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class RutaController extends Controller
 {
-    // Mostrar rutas y PDFs
     public function Ruta()
     {
         $rutas = [
@@ -21,19 +20,19 @@ class RutaController extends Controller
         $rolesConAccesoTotal = ['admin'];
 
         if (in_array($user->role, $rolesConAccesoTotal)) {
-    $pdfs = Pdf::latest()->get(); // admin ve todos
-    } else {
-    $pdfs = Pdf::where('empleado_id', $user->id)->latest()->get(); // usuario normal solo lo suyo
-    }
+            $pdfs = Pdf::latest()->get();
+        } else {
+            $pdfs = Pdf::where(function($query) use ($user) {
+                $query->where('empleado_id', $user->id)
+                      ->orWhere('creado_por', $user->id);
+            })->latest()->get();
+        }
 
-
-        // Traer todos los usuarios para el select en la subida
         $usuarios = User::all();
 
         return view('Ruta', compact('rutas', 'pdfs', 'usuarios'));
     }
 
-    // Subir PDF y asignar a un usuario
     public function storePdf(Request $request)
     {
         $request->validate([
@@ -48,33 +47,31 @@ class RutaController extends Controller
             'nombre' => $request->nombre,
             'ruta' => $filePath,
             'empleado_id' => $request->empleado_id,
+            'creado_por' => Auth::id(),
         ]);
 
         return redirect()->back()->with('success', 'PDF subido correctamente y asignado al usuario.');
     }
 
-    // Eliminar PDF
     public function destroyPdf($id)
-    {
-        $pdf = Pdf::findOrFail($id);
-        $user = Auth::user();
+{
+    $pdf = Pdf::findOrFail($id);
+    $user = Auth::user();
 
-        if ($pdf->empleado_id !== $user->id && $user->role !== 'admin') {
-            abort(403, 'No tienes permiso para eliminar este PDF.');
-        }
+    // Solo confía en el middleware de permisos
+    // Admin con permiso puede borrar todo
+    $pdf->delete();
 
-        $pdf->delete();
+    return redirect()->back()->with('success', 'PDF eliminado correctamente.');
+}
 
-        return redirect()->back()->with('success', 'PDF eliminado correctamente.');
-    }
 
-    // Descargar PDF de forma segura
     public function downloadPdf($id)
     {
         $pdf = Pdf::findOrFail($id);
         $user = Auth::user();
 
-        if ($pdf->empleado_id !== $user->id && !in_array($user->role, ['admin', 'supervisor'])) {
+        if ($pdf->empleado_id !== $user->id && $pdf->creado_por !== $user->id && !in_array($user->role, ['admin'])) {
             abort(403, 'No tienes permiso para ver este PDF.');
         }
 

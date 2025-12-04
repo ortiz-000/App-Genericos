@@ -4,6 +4,7 @@
 
 
 <div class="page-header text-center">
+    <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
         <h2>Registro de Evidencias </h2>
     </div>
 
