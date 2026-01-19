@@ -1,89 +1,66 @@
+console.log('users.js cargado');
+
 document.addEventListener('DOMContentLoaded', () => {
-    // ================== MODAL AGREGAR ==================
-    const btnAdd = document.querySelector('.btn-add-user');
-    const modalAdd = document.getElementById('modalAgregar'); // ID único de modal Agregar
-    const closeAdd = modalAdd.querySelector('.close-modal-btn');
 
-    if (btnAdd && modalAdd && closeAdd) {
-        btnAdd.addEventListener('click', (e) => {
-            e.preventDefault();
-            modalAdd.classList.add('show-modal'); // o modalAdd.style.display = 'flex';
-        });
-
-        closeAdd.addEventListener('click', (e) => {
-            e.preventDefault();
-            modalAdd.classList.remove('show-modal'); // o modalAdd.style.display = 'none';
-        });
-
-        modalAdd.addEventListener('click', (e) => {
-            if (e.target === modalAdd) modalAdd.classList.remove('show-modal');
-        });
-    }
-    const btnEdits = document.querySelectorAll('.btn_edit_users');
-    const modalEdit = document.getElementById('modalEditar');
-    const closeEdit = modalEdit.querySelector('.close_modal_btn');
-    const formEditar = document.getElementById('formEditar');
-
-if (modalEdit && closeEdit && formEditar) {
-
-    btnEdits.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-
-            const row = button.closest('tr');
-
-            // RELLENAR INPUTS
-            document.getElementById('edit_id').value       = row.children[0].textContent;
-            document.getElementById('edit_cedula').value   = row.children[1].textContent;
-            document.getElementById('edit_nombre').value   = row.children[2].textContent;
-            document.getElementById('edit_email').value    = row.children[3].textContent;
-            document.getElementById('edit_telefono').value = row.children[5].textContent;
-            document.getElementById('edit-rol').value      = row.children[6].textContent;
-
-            // ASIGNAR RUTA DINÁMICA AL FORM
-            const userId = row.children[0].textContent;
-            formEditar.action = `/usuarios/${userId}`;
-
-            // ABRIR MODAL
-            modalEdit.classList.add('show-modal');
-        });
-    });
-
-    closeEdit.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalEdit.classList.remove('show-modal');
-    });
-
-    modalEdit.addEventListener('click', (e) => {
-        if (e.target === modalEdit) modalEdit.classList.remove('show-modal');
-    });
-}
-});
-/*
- * Funcionalidad para el botón de búsqueda
- */
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('searchInput');
-  const table = document.getElementById('miTabla');
-  if (!input || !table) return;
-  function buscar() {
-    const value = input.value.toLowerCase();
-    const filas = table.getElementsByTagName('tr');
-    for (let i = 1; i < filas.length; i++) {
-      const celdas = filas[i].getElementsByTagName('td');
-      let encontrado = false;
-      for (let j = 0; j < celdas.length; j++) {
-        if (celdas[j].innerText.toLowerCase().includes(value)) {
-          encontrado = true;
-          break;
-        }
-      }
-      filas[i].style.display = encontrado ? '' : 'none';
-    }
+  // 🔒 MODAL EDITAR USUARIOS (si no existe, salimos)
+  const modalEdit = document.getElementById('modalEditar');
+  if (!modalEdit) {
+    // Este JS no corresponde a esta vista
+    return;
   }
-  input.addEventListener('input', buscar);
-  const btn = document.querySelector('.btn-search');
-  if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); buscar(); });
+
+  // =========================
+  // FUNCIONES GENERALES
+  // =========================
+  const closeAllModals = () => {
+    document.querySelectorAll('.modal, .modal__editar').forEach(modal => {
+      modal.classList.remove('show-modal');
+    });
+  };
+
+  // =========================
+  // MODAL AGREGAR USUARIO
+  // =========================
+  const btnAdd = document.querySelector('.btn-add-user');
+  const modalAdd = document.getElementById('modalAgregar');
+  const closeAdd = modalAdd?.querySelector('.close-modal-btn');
+
+  btnAdd?.addEventListener('click', () => {
+    closeAllModals();
+    modalAdd?.classList.add('show-modal');
+  });
+
+  closeAdd?.addEventListener('click', () => {
+    modalAdd?.classList.remove('show-modal');
+  });
+
+  // =========================
+  // MODAL EDITAR USUARIO
+  // =========================
+  const closeEdit = modalEdit.querySelector('.close_modal_btn');
+
+  document.querySelectorAll('.btn-editar').forEach(btn => {
+    btn.addEventListener('click', () => {
+
+      closeAllModals();
+      modalEdit.classList.add('show-modal');
+
+      // 🔹 Datos DIRECTOS del botón (NO CAMBIADO)
+      const { id, nombre, cedula, email, telefono, rol } = btn.dataset;
+
+      document.getElementById('edit_id').value = id;
+      document.getElementById('edit_nombre').value = nombre;
+      document.getElementById('edit_cedula').value = cedula;
+      document.getElementById('edit_email').value = email;
+      document.getElementById('edit_telefono').value = telefono;
+      document.getElementById('edit-rol').value = rol;
+
+      document.getElementById('formEditar').action = `/usuarios/${id}`;
+    });
+  });
+
+  closeEdit?.addEventListener('click', () => {
+    modalEdit.classList.remove('show-modal');
+  });
+
 });
-
-

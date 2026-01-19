@@ -11,11 +11,33 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RutaController;
 use App\Models\User;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\MensajeriaController;
+use App\Http\Controllers\RecorridoController;
+
+
+
 
 // Cuando entren a la app, ir al login primero
 Route::get('/', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+
+        // Redirige según rol o permiso
+        if ($user->can('ver home')) {
+            return redirect()->route('home');
+        } elseif ($user->hasRole('mensajero')) {
+            return redirect()->route('mensajeria'); // tu vista de mensajería
+        } else {
+            // Usuario logueado pero sin permisos especiales
+            return view('no-permission'); 
+        }
+    }
+
+    // Si no está logueado
     return redirect()->route('login');
 });
+
+
 
 // Rutas públicas (sin autenticación)
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -30,6 +52,8 @@ Route::post('/logout', function () {
 Route::middleware('auth')->group(function () {
 
     //====================>HOME<===========================>//
+
+
      Route::get('/home', [HomeController::class, 'index'])->name('home')
    ->middleware('permission:ver home');
     //
@@ -137,4 +161,24 @@ Route::middleware('auth')->group(function () {
 
 
      //<===========================>RUTA<==========================>//
+
+
+     //<===========================>MENSAJERIA<==========================>//
+    Route::get('/mensajeria', [MensajeriaController::class, 'index'])
+    ->name('mensajeria')
+    ->middleware('permission:ver mensajeria');
+
+    // Vista Recorrido
+    Route::get('/recorrido', [RecorridoController::class, 'index'])
+    ->name('recorrido')
+    ->middleware('permission:ver recorridos');
+
+
+
+    Route::post('/mensajeria/inspeccion/carro', [MensajeriaController::class, 'storeCarro'])
+    ->name('mensajeria.inspeccion.carro.store');
+    
+    Route::post('/mensajeria/inspeccion/moto', [MensajeriaController::class, 'storeMoto'])
+    ->name('mensajeria.inspeccion.moto.store');
+     //<===========================>MENSAJERIA<==========================>//
 });

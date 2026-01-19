@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //ADMIN
+        //ADMINISTRADOR
         $admin = User::create([
             'name' => 'deleted',
             'email' => 'deleted@example.com',
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
 
         $admin->assignRole('admin');
 
-        //OPERARIO
+        //VENDEDOR
         $vendedor = User::create([
             'name' => 'jhon',
             'email' => 'jh@example.com',

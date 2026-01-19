@@ -16,18 +16,32 @@ class AuthController extends Controller
     public function loginPost(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        // 🔐 SESIÓN PERSISTENTE (COMO FACEBOOK)
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
 
-            $request->session()->regenerate();
-            return redirect()->route('home');
+             if (auth()->user()->hasRole('mensajero')) {
+             return redirect()->route('mensajeria');
+    }
+    return redirect()->route('home');
         }
 
         return back()->withErrors([
             'email' => 'Credenciales incorrectas.',
         ]);
+    }
+
+    // 🚪 LOGOUT MANUAL
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

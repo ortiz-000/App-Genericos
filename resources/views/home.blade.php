@@ -4,19 +4,23 @@
 
 
 <div class="page-header text-center">
-    <img src="{{ asset('https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png') }}" alt="Logo" class="logo">
-        <h2>HOME </h2>
-    </div>
+<div class="page-header text-center">
+    <img src=" https://www.supergenericosdelvalle.com/wp-content/uploads/2023/12/Grupo-130.png" alt="Logo" class="img-fluid logo" style="max-width:150px;">
+    <h2 class="mt-2">HOME</h2>
+</div>
+
+   
 @endsection
 
 @section('maincontent')
     <!-- BUSCADOR -->
-     <div class="search-container mb-3">
-        <input id="searchInput" type="text" placeholder="Buscar..." class="search-input">
-        <button class="btn btn-search">
+    <div class="search-container mb-3 d-flex flex-wrap">
+        <input id="searchInput" type="text" placeholder="Buscar..." class="form-control flex-grow-1 mb-2 mb-md-0">
+        <button class="btn btn-primary ms-md-2">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </div>
+
 
     <!-- FORMULARIO PARA CARGAR EXCEL -->
     @can('asignar clientes')
@@ -38,58 +42,65 @@
         </button>
     </div>
 
-    <!-- TABLA DE CLIENTES -->
-    <div class="table-responsive">
-        <table id="miTabla" class="table table-striped table-hover">
-            <thead>
+<div class="table-responsive">
+    <table id="miTabla" class="table table-striped table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th class="d-none d-md-table-cell">Dirección</th>
+                <th>Ciudad</th>
+                <th class="d-none d-md-table-cell">Teléfono</th>
+                <th class="d-none d-md-table-cell">Empleado</th>
+                <th>Estado de Evidencia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($clientes as $cliente)
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Ciudad</th>
-                    <th>Teléfono</th>
-                    <th>empleado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($clientes as $cliente)
-                    <tr>
-                        <td>{{ $cliente->id }}</td>
-                        <td>{{ $cliente->nombre }}</td>
-                        <td>{{ $cliente->direccion }}</td>
-                        <td>{{ $cliente->ciudad }}</td>
-                        <td>{{ $cliente->telefono }}</td>
-                       <td>
-                            {{ $cliente->empleado ? $cliente->empleado->id . ' - ' . $cliente->empleado->name : 'N/A' }}
+                    <td>{{ $cliente->id }}</td>
+                    <td>{{ $cliente->nombre }}</td>
+                    <td class="d-none d-md-table-cell">{{ $cliente->direccion }}</td>
+                    <td>{{ $cliente->ciudad }}</td>
+                    <td class="d-none d-md-table-cell">{{ $cliente->telefono }}</td>
+                    <td class="d-none d-md-table-cell">
+                        {{ $cliente->empleado ? $cliente->empleado->id . ' - ' . $cliente->empleado->name : 'N/A' }}
                     </td>
+                    <td class="text-center">
+                        @if ($cliente->estado === 'VISITADO')
+                            <span class="badge bg-success">Visitado</span>
+                        @else
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        @endif
+                    </td>
+                    <td>
+                        <button 
+                            class="btn btn-evidencia"
+                            data-nombre="{{ $cliente->nombre }}"
+                            data-ciudad="{{ $cliente->ciudad }}">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
 
-
-                        <td>    
-                           <button 
-                                class="btn btn-evidencia"
-                                data-nombre="{{ $cliente->nombre }}"
-                                data-ciudad="{{ $cliente->ciudad }}">
-                                <i class="fa-solid fa-paper-plane"></i>
+                        <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que desea eliminar este cliente?')">
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="8" class="text-center">No hay clientes registrados.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 
-                            <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro que desea eliminar este cliente?')">
-                                   <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="text-center">No hay clientes registrados.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+
 
     <!-- MODAL AGREGAR CLIENTE -->
     <section class="modal" id="modalClientes">
@@ -117,20 +128,24 @@
 
                 <div class="mt-2">
                     <button type="submit" class="btn Agregar">Agregar</button>
-                    <a href="#" class="Cerar-model">Cerrar</a>
+                    <a href="#" class="Cerrar-model">Cerrar</a>
                 </div>
             </form>
         </div>
     </section>
+    <!-- ALERTAS -->
+
+
 
     <!-------MODAL ENVIAR EVIDENCIA------->
     <section class="modal" id="modalEvidencia">
     <div class="modalContent">
         <center><h1 class="moda__title">EVIDENCIA</h1></center>
 
-        <form action="{{ route('empleados.evidencia.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('empleados.evidencia.store') }}" method="POST" enctype="multipart/form-data" id="formEvidencia">
             <!-- CSRF token si es Laravel -->
             @csrf
+
             <!-- Accesor Comercial -->
             <label>Accesor Comercial</label>
             <i class="fa-regular fa-address-card"></i>
@@ -182,9 +197,10 @@
 
 
             <!-- Botón de envío -->
-            <button type="submit" class="btn btn-primary mt-2">
+            <button type="submit" id="btnEnviarEvidencia" class="btn btn-primary mt-2">
                 <i class="fa-regular fa-file-excel me-1"></i> Enviar Evidencia
             </button>
+
 
             <!-- Botón para cerrar modal -->
             <button type="button" class="btn btn-secondary mt-2" onclick="document.getElementById('modalEvidencia').style.display='none'">

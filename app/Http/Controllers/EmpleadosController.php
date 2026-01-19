@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class EmpleadosController extends Controller
 {
+    // ========================================
     // GUARDAR EVIDENCIA
+    // ========================================
     public function storeEvidencia(Request $request)
     {
         $user = Auth::user();
@@ -16,7 +18,7 @@ class EmpleadosController extends Controller
             return redirect()->back()->with('error', 'Debes iniciar sesión para enviar evidencia.');
         }
 
-        // Validar datos que vienen del formulario
+        // Validar datos del formulario
         $request->validate([
             'accesor_comercial'      => 'required|string|max:255',
             'usuario'                => 'required|email|max:255',
@@ -34,9 +36,10 @@ class EmpleadosController extends Controller
             $fotoPath = $request->file('foto_establecimiento')->store('evidencias', 'public');
         }
 
+        // Motivo final (si eligieron "Otro")
         $motivoFinal = $request->motivo == 'Otro' ? $request->otro : $request->motivo;
 
-        // Guardar evidencia con empleado_id
+        // Guardar evidencia
         Evidencia::create([
             'accesor_comercial'      => $request->accesor_comercial,
             'usuario'                => $request->usuario,
@@ -49,31 +52,32 @@ class EmpleadosController extends Controller
             'empleado_id'            => $user->id,
         ]);
 
-        return redirect()->back()->with('success', 'Evidencia enviada con éxito!');
+        return redirect()->route('empleados')->with('success', 'Evidencia enviada con éxito!');
     }
 
-    // VER EVIDENCIAS EN LA VISTA EMPLEADOS CON FILTRO POR ROL
+    // ========================================
+    // HISTORIAL DE EVIDENCIAS (TOTAL)
+    // ========================================
     public function empleados()
     {
         $user = Auth::user();
 
-        // Roles que pueden ver todas las evidencias
-        $rolesConAccesoTotal = ['admin',]; // agrega más roles si es necesario
-
-        if (in_array($user->role, $rolesConAccesoTotal)) {
-            // Admin o supervisores ven todas las evidencias
-            $evidencias = Evidencia::latest()->paginate(15); // paginación de 15 por página
+        if (strtolower($user->rol) === 'admin') {
+            // Admin ve todas las evidencias, historial completo
+            $evidencias = Evidencia::orderBy('created_at', 'desc')->get();
         } else {
-            // Operarios solo ven sus propias evidencias
+            // Otros usuarios solo ven sus propias evidencias
             $evidencias = Evidencia::where('empleado_id', $user->id)
-                                   ->latest()
-                                   ->paginate(15);
+                                   ->orderBy('created_at', 'desc')
+                                   ->get();
         }
 
         return view('empleados', compact('evidencias'));
     }
 
-    // ELIMINAR EVIDENCIA
+    // ========================================
+    // ELIMINAR EVIDENCIA (solo manual)
+    // ========================================
     public function destroy($id)
     {
         $reporte = Evidencia::findOrFail($id);

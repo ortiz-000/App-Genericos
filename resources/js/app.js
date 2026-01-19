@@ -2,6 +2,8 @@ import './bootstrap';  // siempre primero
 import './Clientes';
 import './empleados';
 import './users';
+import './home';
+import './Mensajeria';
 
 
 
