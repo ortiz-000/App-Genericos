@@ -16,69 +16,80 @@
         </button>
     </div>
 
-    <!-- ================== TABLA DE CLIENTES ================== -->
-    <div class="table-responsive">
-        <table id="miTabla" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Ciudad</th>
-                    <th>Teléfono</th>
-                    <th>empleado_id</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($clientes as $c)
-                    <tr>
-                        <td>{{ $c->id }}</td>
-                        <td>{{ $c->nombre }}</td>
-                        <td>{{ $c->direccion }}</td>
-                        <td>{{ $c->ciudad }}</td>
-                        <td>{{ $c->telefono }}</td>
-                        <td>{{ $c->empleado_id ?? 'N/A' }}</td>
-
-                        <td>
-                            <!-- Botón Editar con datos dinámicos -->
-                            <button class="btn-editar" 
-                                data-id="{{ $c->id }}" 
-                                data-nombre="{{ $c->nombre }}" 
-                                data-direccion="{{ $c->direccion }}" 
-                                data-ciudad="{{ $c->ciudad }}" 
-                                data-telefono="{{ $c->telefono }}">
-                                
-                             <i class="fa-regular fa-pen-to-square"></i></button>
-
-                            <!-- Botón Eliminar -->
-                            <form action="{{ route('clientes.destroy', $c->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-borrar">
-                                    <i class="fa-solid fa-trash"></i> 
-                                </button>
-                            </form>
-                        </td>
-                    </tr>     
-                @endforeach
-                
-                <!-- Mensaje por defecto si no hay clientes -->
-                @if($clientes->isEmpty())
-                    <tr>
-                        <td colspan="6" class="text-center">No hay clientes registrados.</td>
-                    </tr>
+   <!-- ================== TABLA DE CLIENTES ================== -->
+<div class="table-responsive">
+    <table id="miTabla" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Teléfono</th>
+                @if(auth()->user()->hasRole('admin'))
+                    <th>Empleado</th>
                 @endif
-            </tbody>
-        </table>
-    </div>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($clientes as $c)
+                <tr>
+                    <td>{{ $c->id }}</td>
+                    <td>{{ $c->nombre }}</td>
+                    <td>{{ $c->direccion }}</td>
+                    <td>{{ $c->ciudad }}</td>
+                    <td>{{ $c->telefono }}</td>
+
+                    @if(auth()->user()->hasRole('admin'))
+                        <td>{{ $c->empleado ? $c->empleado->name : 'N/A' }}</td>
+                    @endif
+
+                    <td class="d-flex flex-column gap-1">
+                        @can('editar clientes')
+                        <!-- Botón Editar -->
+                        <button class="btn-editar" 
+                            data-id="{{ $c->id }}" 
+                            data-nombre="{{ $c->nombre }}" 
+                            data-direccion="{{ $c->direccion }}" 
+                            data-ciudad="{{ $c->ciudad }}" 
+                            data-telefono="{{ $c->telefono }}">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        @endcan
+
+                        @can('eliminar clientes')
+                        <!-- Botón Eliminar -->
+                        <form action="{{ route('clientes.destroy', $c->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este cliente?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-borrar">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                        @endcan
+                    </td>
+                </tr>     
+            @empty
+                <!-- Mensaje por defecto si no hay clientes -->
+                <tr>
+                    <td colspan="{{ auth()->user()->hasRole('admin') ? 7 : 6 }}" class="text-center">
+                        No hay clientes registrados.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+
 
     <!-- Modal para Editar Cliente -->
     <section class="modal" id="modalEditarCliente">
         <div class="modal__conatiner">
-            <h1 modal__title>Editar Cliente</h1>
+            <h1 class="modal__title">Editar Cliente</h1>
 
-            <form id="Formedit" action="" method="POST">
+            <form id="Formedit" method="POST">
                 @csrf
                 @method('PATCH')
                 <input type="hidden" name="id" id="edit_id">

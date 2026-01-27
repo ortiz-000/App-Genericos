@@ -10,6 +10,7 @@
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
+@can('agregar pdfs')
 {{-- Formulario de subida --}}
 <form action="{{ route('ruta.pdfs.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -26,7 +27,7 @@
 
     <button type="submit">Subir PDF</button>
 </form>
-
+@endcan
 <hr>
 
 {{-- Tabla de PDFs --}}
@@ -34,26 +35,26 @@
     <table class="table table-striped table-hover">
         <thead>
     <tr>
-        <th class="hide-md">Nombre</th>
-        <th class="hide-md">Asignado a</th> <!-- nueva columna -->
-        <th class="hide-md">Archivo</th>
-        <th class="hide-md">Fecha</th>
-        <th class="hide-md">Acciones</th>
+        <th>Nombre</th>
+        <th>Asignado a</th> <!-- nueva columna -->
+        <th>Archivo</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
     </tr>
 </thead>
 <tbody>
     @foreach($pdfs as $p)
     <tr>
-        <td class="hide-md">{{ $p->nombre }}</td>
-        <td class="hide-md">{{ $p->empleado->name }}</td> <!-- aquí -->
-        <td class="hide-md">
+        <td >{{ $p->nombre }}</td>
+        <td >{{ $p->empleado->name }}</td> <!-- aquí -->
+        <td >
             <a href="{{ route('ruta.pdfs.download', $p->id) }}" target="_blank">Ver PDF</a>
         </td>
-        <td class="hide-md">{{ $p->created_at->format('d/m/Y H:i') }}</td>
+        <td >{{ $p->created_at->format('d/m/Y H:i') }}</td>
 
         
         @can('eliminar pdfs')
-        <td class="hide-md">
+        <td>
             <form action="{{ route('ruta.pdfs.destroy', $p->id) }}" method="POST">
                 @csrf
                 @method('DELETE')

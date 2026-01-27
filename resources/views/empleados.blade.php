@@ -17,44 +17,46 @@
     {{-- Filtros responsivos --}}
     <div class="row g-2 mb-3">
         <div class="col-12 col-md-4">
-            <input type="text" id="filterCliente" placeholder="Buscar Cliente..." class="form-control">
+            <input type="text" id="filterVendedor" placeholder="Buscar Vendedor..." class="form-control">
         </div>
         <div class="col-12 col-md-4">
             <input type="text" id="filterCiudad" placeholder="Buscar Ciudad..." class="form-control">
         </div>
-        <div class="col-12 col-md-4">
-            <input type="date" id="filterFecha" class="form-control">
+       <div class="col-12 col-md-4">
+            <input type="date" id="filterFechaInicio" class="form-control" placeholder="Fecha inicio">
         </div>
+        <div class="col-12 col-md-4">
+            <input type="date" id="filterFechaFin" class="form-control" placeholder="Fecha fin">
+        </div>
+
     </div>
 
     {{-- Tabla responsiva --}}
-    <div class="table-responsive">
-        <table id="miTabla" class="table table-striped align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Accesor Comercial</th>
-                    <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Ciudad</th>
-                    <th>Ubicación</th>
-                    <th>Motivo</th>
-                    <th>Otro</th>
-                    <th>Foto</th>
-                    <th>Fecha</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach($evidencias as $e)
+<div class="table-responsive">
+    <table id="miTabla" class="table table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Asesor Comercial</th>
+                <th class="d-none d-md-table-cell">Usuario</th>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>Ubicación</th>
+                <th>Motivo</th>
+                <th>Otro</th>
+                <th>Foto</th>
+                <th>Fecha</th>
+                <th class="d-none d-md-table-cell">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($evidencias as $e)
                 <tr>
                     <td>{{ $e->id }}</td>
                     <td>{{ $e->accesor_comercial }}</td>
-                    <td>{{ $e->usuario }}</td>
+                    <td class="d-none d-md-table-cell">{{ $e->usuario }}</td>
                     <td>{{ $e->nombre_establecimiento }}</td>
                     <td>{{ $e->ciudad_establecimiento }}</td>
-
                     <td>
                         <a href="{{ $e->ubicacion }}" 
                            class="btn btn-success btn-sm w-100" 
@@ -62,10 +64,8 @@
                            Ver mapa
                         </a>
                     </td>
-
                     <td>{{ $e->motivo }}</td>
                     <td>{{ $e->otro }}</td>
-
                     <td>
                         @if($e->foto_establecimiento)
                             <img src="{{ asset('storage/' . $e->foto_establecimiento) }}"
@@ -74,10 +74,8 @@
                             <span class="text-muted">No foto</span>
                         @endif
                     </td>
-
-                    <td>{{ $e->created_at }}</td>
-
-                    <td>
+                    <td> {{ $e->created_at }}</td>
+                    <td class="d-none d-md-table-cell">
                         @can('eliminar reportes')
                         <form action="{{ route('empleados.reportes.destroy', $e->id) }}"
                               method="POST"
@@ -91,10 +89,22 @@
                         @endcan
                     </td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
+            @empty
+                <tr>
+                    <td colspan="11" class="text-center">No hay evidencias registradas.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+<!-- Alerta de envío -->
+<div id="alerta" class="alerta">
+    <div class="alerta-contenido">
+        <p>Se envió correctamente</p>
+        <button id="aceptarAlerta">Aceptar</button>
     </div>
+</div>
+
 
 </div>
 

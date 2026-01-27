@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <!-- Estilos y scripts -->
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    @vite(['resources/css/app.css'])
     <title>@yield('title', 'Mi App')</title>
 </head>
 <body>
@@ -50,10 +51,11 @@
                 </li>
                  @endcan
 
+                 @can('ver empleados')
                 <li class="{{ request()->is('empleados*') ? 'active' : '' }}">
                     <a href="{{ route('empleados') }}"><i class="fa-solid fa-user-tie"></i>Reportes de Empleados</a>
                 </li>
-
+                 @endcan
                
 
                 @can('ver ruta')
@@ -61,6 +63,20 @@
                     <a href="{{ route('Ruta') }}"><i class="fa-solid fa-route"></i>Ruta</a>
                 </li>
                 @endcan
+                
+                @can('ver mensajeria')
+                <li class="{{ request()->is('mensajeria*') ? 'active' : '' }}">
+                    <a href="{{ route('mensajeria') }}"><i class="fa-solid fa-car"></i><i class="fa-solid fa-motorcycle"></i>Mensajeria</a>
+                </li>
+                @endcan
+
+                @can('ver recorridos')
+                <li class="{{ request()->is('recorrido*') ? 'active' : '' }}">
+                    <a href="{{ route('recorrido') }}"><i class="fa-solid fa-car"></i><i class="fa-solid fa-motorcycle"></i>Recorrido</a>
+                </li>
+                @endcan
+      
+                
     <form id="logout-form" action="{{ route('logout') }}" method="POST">
         @csrf
         <button type="submit" class="sidebar-logout">
@@ -86,6 +102,8 @@
         <!-- Sección de footer opcional -->
         @yield('footer')
     </main>
+  @vite([ 'resources/js/app.js'])
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
